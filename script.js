@@ -1,5 +1,10 @@
 function checkCashRegister(price, cash, cid) {
-    let change;
+
+
+//declare change for change due
+    let totalChange;
+// declare workingChangefor change to still find
+    let workingChange;
 // declare obj for answer object
     let objAnswer;
 // declare array of return objects
@@ -9,8 +14,27 @@ function checkCashRegister(price, cash, cid) {
         {status: "OPEN", change: objAnswer}
     ]
 
-// change = cash - price
-    change = cash - price;
+// totalChange = cash - price
+    totalChange = cash - price;
+// assign totalChange to workingChange to start
+    workingChange = totalChange;
+
+// need to assign "multiples" to each coin/cash
+// create multipleArr
+    let multipleArr = [
+        ["ONE HUNDRED", 100],
+        ["TWENTY", 20],
+        ["TEN", 10],
+        ["FIVE", 5],
+        ["ONE", 1],
+        ["QUARTER", 0.25],
+        ["DIME", 0.10],
+        ["NICKEL", 0.05],
+        ["PENNY", 0.01]
+    ]
+
+// cycle thru cid array to find change
+
 
 
 
