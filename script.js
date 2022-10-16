@@ -7,6 +7,10 @@ function checkCashRegister(price, cash, cid) {
     let workingChange;
 // declare obj for answer object
     let objAnswer;
+// declare workingCid so cid can be changed as we go along
+    let workingCid = [];
+    workingCid = [...cid];
+    // console.log(workingCid);
 // declare array of return objects
     let arrOptions = [
         {status: "INSUFFICIENT_FUNDS", change: []},
@@ -33,6 +37,17 @@ function checkCashRegister(price, cash, cid) {
         ["PENNY", 0.01]
     ]
 
+    // FUNCTION to get sum of workingCid
+    function sumCid() {
+        let sum = 0
+        for (let k = 0; k < workingCid.length; k++) {
+            sum += workingCid[k][1];
+        }
+        return sum
+    }
+
+    console.log(sumCid());
+
     // FUNCTION to cycle thru multipleArr to find biggest multiple
     function multipleFunc (num) {
         for (let i = 0; i < multipleArr.length; i++ ) {
@@ -53,17 +68,23 @@ function checkCashRegister(price, cash, cid) {
     // console.log(denom);
 
     // FUNCTION to cyle through cid (in reverse) to go to biggest multiple
-    function loopRegister(coin) {
-        for (let j = cid.length - 1; j >= 0; j--) {
-        
-            if (cid[j][0] == coin[0]) {
-                console.log(cid[j][0]);
+    /*
+    function loopRegister() {
+        while (workingCid[j][0] == denom[0])
+
+
+
+        for (let j = workingCid.length - 1; j >= 0; j--) {
+            // find the coin from cid
+            if (workingCid[j][0] == denom[0]) {
+                console.log(workingCid[j][0]);
+
             }
         }
         return "";
     }
-
-   console.log(loopRegister(denom))
+    */
+    // console.log(loopRegister(denom))
 
     // console.log(multipleFunc(.5));
 
