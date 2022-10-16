@@ -10,7 +10,8 @@ function checkCashRegister(price, cash, cid) {
 // declare workingCid so cid can be changed as we go along
     let workingCid = [];
     workingCid = [...cid];
-    // console.log(workingCid);
+// declare index for multipleIndex function return
+    let index;
 // declare array of return objects
     let arrOptions = [
         {status: "INSUFFICIENT_FUNDS", change: []},
@@ -51,42 +52,36 @@ function checkCashRegister(price, cash, cid) {
     // FUNCTION to cycle thru multipleArr to find biggest multiple
     function multipleFunc (num) {
         for (let i = 0; i < multipleArr.length; i++ ) {
-            let multiple = [];
+            let multipleIndex;
             // biggest multiple
             if ((num / multipleArr[i][1]) >= 1) {
-                multiple = [multipleArr[i][0], multipleArr[i][1]]
-                return multiple;
+                multipleIndex = i;
+                return multipleIndex;
             }
         }
     }
     // end multipleFunc
-
-
     
-    // call multipleFunc to find first multiple
-    let denom = multipleFunc(workingChange);
-    // console.log(denom);
+ 
 
-    // FUNCTION to cyle through cid (in reverse) to go to biggest multiple
-    /*
-    function loopRegister() {
-        while (workingCid[j][0] == denom[0])
-
-
-
-        for (let j = workingCid.length - 1; j >= 0; j--) {
-            // find the coin from cid
-            if (workingCid[j][0] == denom[0]) {
-                console.log(workingCid[j][0]);
-
-            }
+    // FUNCTION to whle loop through cid till workingChange = 0
+    function loopRegister(_index) {
+        console.log(workingCid[workingCid.length - 1 - _index]);
+        /*
+        while (workingCid[j][0] == denom[0]) {
+            ....
         }
+        */
         return "";
     }
-    */
-    // console.log(loopRegister(denom))
+    
+    
+ 
+    // call multipleFunc to find first multiple
+    index = multipleFunc(workingChange);
+    
+    console.log(loopRegister(index));
 
-    // console.log(multipleFunc(.5));
 
 // will return obj
     return objAnswer;
