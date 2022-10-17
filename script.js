@@ -47,7 +47,7 @@ function checkCashRegister(price, cash, cid) {
         return sum
     }
 
-    console.log(sumCid());
+    // console.log(sumCid());
 
     // FUNCTION to cycle thru multipleArr to find biggest multiple
     function multipleFunc (num) {
@@ -76,14 +76,24 @@ function checkCashRegister(price, cash, cid) {
         return "";
     }
     
-    
+// *******  start algorhythm  ********
+
     // call multipleFunc to find first multiple
     index = multipleFunc(workingChange);
-    
-    loopRegister(index);
+
+    // see if insufficient funds before starting to loop through array
+    if (workingChange > sumCid()) {
+        // assign insufficient funds object
+        objAnswer = arrOptions[0];
+    } else {
+        loopRegister(index);        
+    }
+
+
 
 
 // will return obj
+    console.log(objAnswer);
     return objAnswer;
   }
   
