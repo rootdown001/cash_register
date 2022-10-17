@@ -1,5 +1,5 @@
 function checkCashRegister(price, cash, cid) {
-
+    let x;
 
 //declare change for change due
     let totalChange;
@@ -20,9 +20,19 @@ function checkCashRegister(price, cash, cid) {
     ]
 
 // totalChange = cash - price
+    //console.log("initial cash" + cash);
+    //console.log("initial price" + price);
     totalChange = cash - price;
+    // console.log("initial totalChange" + totalChange);
 // assign totalChange to workingChange to start
     workingChange = totalChange;
+
+// round to 2 decimals for clean math
+    x = workingChange.toFixed(2);
+    workingChange = x;
+
+
+    //console.log("initial workingChange" + workingChange);
 
 // need to assign "multiples" to each coin/cash
 // create multipleArr
@@ -63,30 +73,45 @@ function checkCashRegister(price, cash, cid) {
     // end multipleFunc
     
 
-    // FUNCTION to whle loop through cid till workingChange = 0
-    function loopRegister() {
-        console.log(workingCid[workingCid.length - 1 - index]);
-        
-                
-        /*
-        while (workingChange > 0) {
-            ....
-        }
-        */
-        return "";
-    }
     
 // *******  start algorhythm  ********
 
-    // call multipleFunc to find first multiple
-    index = multipleFunc(workingChange);
+    
 
     // see if insufficient funds before starting to loop through array
     if (workingChange > sumCid()) {
         // assign insufficient funds object
         objAnswer = arrOptions[0];
     } else {
-        loopRegister(index);        
+        // while still change to calculate AND not past end (reverse) of cid array...
+        index = multipleFunc(workingChange);
+        while ((workingChange > 0) && ((workingCid.length - 1 - index) > 0)) {
+  
+
+            //console.log("multiple: " + (workingCid[workingCid.length - 1 - index]))
+            //console.log("cid index: " + (workingCid.length - 1 - index))
+            // see if this multiple has change to give
+            
+            if (((workingCid[workingCid.length - 1 - index])[1]) >= workingChange) {
+                // decrease cid denomination by 1 coin
+                (workingCid[workingCid.length - 1 - index])[1] = ((workingCid[workingCid.length - 1 - index])[1]).toFixed(2) - (multipleArr[index][1]).toFixed(2);
+                console.log(workingCid);
+                // decrease working change by 1 coin
+                console.log("workingChange before decrease: " + workingChange);
+                console.log("amt subtracted: " + multipleArr[index][1]);
+                workingChange = workingChange - (multipleArr[index][1]);
+                x = workingChange.toFixed(2);
+                workingChange = x;
+                console.log("workingChange after decrease: " + workingChange);
+            }
+            
+            // call multipleFunc to find first multiple
+            index = multipleFunc(workingChange);
+            
+
+        }
+    
+    
     }
 
 
@@ -97,4 +122,4 @@ function checkCashRegister(price, cash, cid) {
     return objAnswer;
   }
   
-  checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+  checkCashRegister(19.4, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
