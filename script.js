@@ -62,15 +62,12 @@ function checkCashRegister(price, cash, cid) {
     }
     // end multipleFunc
     
- 
 
     // FUNCTION to whle loop through cid till workingChange = 0
     function loopRegister() {
         console.log(workingCid[workingCid.length - 1 - index]);
         
-        
-        
-        
+                
         /*
         while (workingChange > 0) {
             ....
@@ -80,14 +77,9 @@ function checkCashRegister(price, cash, cid) {
     }
     
     
- 
     // call multipleFunc to find first multiple
     index = multipleFunc(workingChange);
     
-
-
-
-
     loopRegister(index);
 
 
