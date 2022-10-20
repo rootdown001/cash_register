@@ -13,9 +13,9 @@ function checkCashRegister(price, cash, cid) {
 // declare objChange for change object
     let objChange = "finish this";
 // declare workingCid so cid can be changed as we go along
-    //const test = [...cid];
+    
     //console.log(test)
-    let workingCid = cid.slice(0, (cid.length));
+    let workingCid = cid.map(arr => arr.slice());
     workingCid = workingCid.reverse();
     //console.log(workingCid);
 // declare index for multipleIndex function return
@@ -116,7 +116,7 @@ function checkCashRegister(price, cash, cid) {
         if (workingChange == 0 && (sumCid() > 0)) {
             objAnswer = arrOptions[2];
         } else if (workingChange == 0 && (sumCid() == 0)) {
-            console.log(test);
+            //console.log(test);
             objAnswer = arrOptions[1];
         } else if (workingChange > 0) {
             objAnswer = arrOptions[0];
@@ -137,7 +137,7 @@ function checkCashRegister(price, cash, cid) {
   //checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
   
   // {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]}
-  // checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]])
+  //checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]])
 
   // WORKS {status: "INSUFFICIENT_FUNDS", change: []} 
   //checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])
