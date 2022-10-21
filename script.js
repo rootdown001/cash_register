@@ -16,8 +16,6 @@ function checkCashRegister(price, cash, cid) {
     let changeArr = [];                 
 // declare obj for answer object
     let objAnswer;
-// declare objChange for change object
-    let objChange = "finish this";
 // declare workingCid so cid can be changed as we go along
     let workingCid = cid.map(arr => arr.slice());
     workingCid = workingCid.reverse();
@@ -85,13 +83,6 @@ function checkCashRegister(price, cash, cid) {
         index = multipleFunc(workingChange);
         while ((workingChange > 0) && ((index) < workingCid.length)) {
 
-            console.log("start loop");
-            console.log("index: " + index);
-            console.log(workingCid);
-
-            console.log("((workingCid[index])[1]):  " + ((workingCid[index])[1]));
-            console.log("workingChange: " + workingChange);
-
 
            // see if this multiple has change to give
            if ((Math.floor(((((workingCid[index])[1]).toFixed(2))/((multipleArr[index][1]).toFixed(2))))) > 0) {
@@ -102,15 +93,12 @@ function checkCashRegister(price, cash, cid) {
             possibleAmt = ((possibleInt* ((multipleArr[index][1]))).toFixed(2));
 
             maxAmt = (Math.floor(workingChange / ((multipleArr[index][1]).toFixed(2)))) * ((multipleArr[index][1]).toFixed(2));
-            console.log("maxAmt: " + maxAmt)
+
             if ((((workingCid[index])[1]).toFixed(2)) >= maxAmt) {
                 removeAmt = maxAmt;
             } else {
                 removeAmt = Number(((workingCid[index])[1]).toFixed(2));
             }
-
-            console.log("possibleAmt: " + possibleAmt);
-            console.log("removeAmt: " + removeAmt);
 
             // decrease workingCid denomination by change given from this coin
             (workingCid[index])[1] = ((workingCid[index])[1]).toFixed(2) - removeAmt;
@@ -143,7 +131,6 @@ function checkCashRegister(price, cash, cid) {
         // else if... algorythm ends with not all change given
         } else if (workingChange > 0) {
             objAnswer = arrOptions[0];
-            console.log("workingChange>0: " + workingChange);
         // else... to catch issues not above
         } else {
             console.log("error");
