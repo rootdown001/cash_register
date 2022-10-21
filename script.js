@@ -13,11 +13,8 @@ function checkCashRegister(price, cash, cid) {
 // declare objChange for change object
     let objChange = "finish this";
 // declare workingCid so cid can be changed as we go along
-    
-    //console.log(test)
     let workingCid = cid.map(arr => arr.slice());
     workingCid = workingCid.reverse();
-    //console.log(workingCid);
 // declare index for multipleIndex function return
     let index;
 // declare array of return objects
@@ -34,9 +31,8 @@ function checkCashRegister(price, cash, cid) {
 // round to 2 decimals for clean math
     workingChange = workingChange.toFixed(2);
    
-
 // need to assign "multiples" to each coin/cash
-// create multipleArr
+// create multipleArr to list "amount" corresponding to each denomination
     let multipleArr = [
         ["ONE HUNDRED", 100],
         ["TWENTY", 20],
@@ -58,7 +54,6 @@ function checkCashRegister(price, cash, cid) {
         return sum
     }
 
-
     // FUNCTION to cycle thru multipleArr to find biggest multiple
     function multipleFunc (num) {
         for (let i = 0; i < multipleArr.length; i++ ) {
@@ -72,11 +67,8 @@ function checkCashRegister(price, cash, cid) {
     }
     // end multipleFunc
     
-
     
 // *******  start algorhythm  ********
-
-    
 
     // see if insufficient funds before starting to loop through array
     if (workingChange > sumCid()) {
@@ -88,44 +80,47 @@ function checkCashRegister(price, cash, cid) {
         while ((workingChange > 0) && ((index) < workingCid.length)) {
 
             // see if this multiple has change to give
-            
             if (((workingCid[index])[1]) >= workingChange) {
 
-                // decrease cid denomination by 1 coin
+                
+                // calculate amt change that can be given from this denomination 
                 removeInt = Math.floor(((((workingCid[index])[1]).toFixed(2))/((multipleArr[index][1]).toFixed(2))));
+                removeAmt = ((removeInt* ((multipleArr[index][1]))).toFixed(2));
 
-
-                removeAmt = ((removeInt* ((multipleArr[index][1]))).toFixed(2));//(multipleArr[index][1]).toFixed(2);
-
+                // decrease workingCid denomination by change given from this coin
                 ((workingCid[index])[1]) = ((workingCid[index])[1]) - removeAmt;
 
-                // decrease working change by 1 coin
-
+                // decrease working change by change given from this coin
                 workingChange = workingChange - removeAmt;
+                // round to 2 decimals for clean math
                 workingChange = workingChange.toFixed(2);
                 
+                // call function to find index of next smallest denomination
                 index = multipleFunc(workingChange);
+            // else... if no change to give just increment index of denomination (to smaller denomination) 
             } else {
                 index++;
             }
         }
         //while loop ended
 
+
         // see if workingChange is 0 or not
         // if all change given & more left in drawer
         if (workingChange == 0 && (sumCid() > 0)) {
             objAnswer = arrOptions[2];
+        // else if... all change given and none left in drawer
         } else if (workingChange == 0 && (sumCid() == 0)) {
-            //console.log(test);
             objAnswer = arrOptions[1];
+        // else if... algorythm ends with not all change given
         } else if (workingChange > 0) {
             objAnswer = arrOptions[0];
             console.log("workingChange>0: " + workingChange);
+        // else... to catch issues not above
         } else {
             objAnswer = arrOptions[0];
             vonsole.log("end if...else");
-        }
-        
+        }        
     }
 
 // will return obj
