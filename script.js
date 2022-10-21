@@ -8,8 +8,12 @@ function checkCashRegister(price, cash, cid) {
     let possibleInt;
 // declare remove variable for POSSIBLE $amt to subtract from each multiple
     let possibleAmt;    
+// declare remove variable for max $amt to subtract from each multiple
+    let maxAmt;        
 // declare remove variable for $amt to subtract from each multiple
-    let removeAmt;        
+    let removeAmt; 
+// declare array for change amt
+    let changeArr = [];                 
 // declare obj for answer object
     let objAnswer;
 // declare objChange for change object
@@ -23,7 +27,7 @@ function checkCashRegister(price, cash, cid) {
     let arrOptions = [
         {status: "INSUFFICIENT_FUNDS", change: []},
         {status: "CLOSED", change: cid},
-        {status: "OPEN", change: objChange}
+        {status: "OPEN", change: changeArr}
     ]
 
 // totalChange = cash - price
@@ -97,56 +101,34 @@ function checkCashRegister(price, cash, cid) {
             possibleInt = Math.floor(((((workingCid[index])[1]).toFixed(2))/((multipleArr[index][1]).toFixed(2))));
             possibleAmt = ((possibleInt* ((multipleArr[index][1]))).toFixed(2));
 
-            removeAmt = (Math.floor(workingChange / ((multipleArr[index][1]).toFixed(2)))) * ((multipleArr[index][1]).toFixed(2));
+            maxAmt = (Math.floor(workingChange / ((multipleArr[index][1]).toFixed(2)))) * ((multipleArr[index][1]).toFixed(2));
+            console.log("maxAmt: " + maxAmt)
+            if ((((workingCid[index])[1]).toFixed(2)) >= maxAmt) {
+                removeAmt = maxAmt;
+            } else {
+                removeAmt = Number(((workingCid[index])[1]).toFixed(2));
+            }
 
             console.log("possibleAmt: " + possibleAmt);
             console.log("removeAmt: " + removeAmt);
 
             // decrease workingCid denomination by change given from this coin
-            ((workingCid[index])[1]) = ((workingCid[index])[1]) - removeAmt;
+            (workingCid[index])[1] = ((workingCid[index])[1]).toFixed(2) - removeAmt;
 
             // decrease working change by change given from this coin
             workingChange = workingChange - removeAmt;
             // round to 2 decimals for clean math
             workingChange = workingChange.toFixed(2);
             
+            // add change to change array
+            changeArr.push([(workingCid[index])[0], removeAmt]);
+
             // call function to find index of next smallest denomination
             index = multipleFunc(workingChange);
         // else... if no change to give just increment index of denomination (to smaller denomination) 
         } else {
             index++;
         }
-
-
-
-
-/*
-            // see if this multiple has change to give
-            if (((workingCid[index])[1]) >= workingChange) {
-
-                
-                // calculate amt change that can be given from this denomination 
-                possibleInt = Math.floor(((((workingCid[index])[1]).toFixed(2))/((multipleArr[index][1]).toFixed(2))));
-                possibleAmt = ((possibleInt* ((multipleArr[index][1]))).toFixed(2));
-
-                console.log("possibleAmt: " + possibleAmt);
-
-                // decrease workingCid denomination by change given from this coin
-                ((workingCid[index])[1]) = ((workingCid[index])[1]) - possibleAmt;
-
-                // decrease working change by change given from this coin
-                workingChange = workingChange - possibleAmt;
-                // round to 2 decimals for clean math
-                workingChange = workingChange.toFixed(2);
-                
-                // call function to find index of next smallest denomination
-                index = multipleFunc(workingChange);
-            // else... if no change to give just increment index of denomination (to smaller denomination) 
-            } else {
-                index++;
-            }
-*/
-
         }
         //while loop ended
 
@@ -164,8 +146,7 @@ function checkCashRegister(price, cash, cid) {
             console.log("workingChange>0: " + workingChange);
         // else... to catch issues not above
         } else {
-            objAnswer = arrOptions[0];
-            console.log("end if...else");
+            console.log("error");
         }        
     }
 
@@ -174,17 +155,17 @@ function checkCashRegister(price, cash, cid) {
     return objAnswer;
   }
   
-  // (WORKS- FINISH){status: "OPEN", change: [["QUARTER", 0.5]]}
-  //checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+  // WORKS{status: "OPEN", change: [["QUARTER", 0.5]]}
+  checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
   
-  // {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]}
+  // WORKS {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]}
   //checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]])
 
   // WORKS {status: "INSUFFICIENT_FUNDS", change: []} 
   //checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])
 
-  //  {status: "INSUFFICIENT_FUNDS", change: []}
+  // WORKS {status: "INSUFFICIENT_FUNDS", change: []}
   //checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])
 
   // WORKS {status: "CLOSED", change: [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]}
-  checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])
+  //checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])
